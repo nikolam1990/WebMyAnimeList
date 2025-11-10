@@ -48,20 +48,20 @@ namespace WebMyAnimeList.Controllers
                 return NotFound(ex.Message);
             }
         }
-            
-            //[HttpPost("Rebranding")]
-            //public async Task<ActionResult> UpdateStudioById(UpdateAnimationRequest animeupdate)
-            //{
-            //    try
-            //    {
-            //        await _animeTaitle.UpdateAnime(animeupdate);
-            //        return Ok();
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        return NotFound(ex.Message);
-            //    }
-            //}
+
+        [HttpPost("Rebranding")]
+        public async Task<ActionResult> UpdateStudioById(UpdateAnimationRequest animeupdate)
+        {
+            try
+            {
+                await _animeTaitle.UpdateAnime(animeupdate);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
         [HttpDelete("DeleteTaitle")]
         public async Task<ActionResult> DeleteById(int id)
         {

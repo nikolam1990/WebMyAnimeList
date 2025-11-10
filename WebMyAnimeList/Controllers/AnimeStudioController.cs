@@ -21,9 +21,6 @@ namespace WebMyAnimeList.Controllers
         [HttpPost("Create")]
         public async Task<ActionResult<int>> Create(CreateAnimationStudioRequest animeStudio)
         {
-            //var id = await _studio.CreateStudio(animeStudio);
-            ////return BadRequest("Такая студия уже есть");
-            //return Ok(id);
             try
             {
                 var id = await _studio.CreateStudio(animeStudio);
@@ -33,7 +30,6 @@ namespace WebMyAnimeList.Controllers
             {
                 return NotFound(ex.Message);
             }
-
         }
 
         [HttpGet]

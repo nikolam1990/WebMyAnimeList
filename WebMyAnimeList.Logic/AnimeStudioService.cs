@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Xml.Linq;
 using WebMyAnimeList.Data;
 using WebMyAnimeList.Data.Entities;
 using WebMyAnimeList.Models;
@@ -16,7 +15,7 @@ public class AnimeStudioService
     }
     public async Task<int> CreateStudio(CreateAnimationStudioRequest animationStudio)
     {
-        var Studios = await _context.Studios.Select(x => animationStudio.Name).ToListAsync();
+        var Studios = await _context.Studios.Select(x => x.Name).ToListAsync();
         if (Studios.Contains(animationStudio.Name)) 
         {
             throw new Exception("такая студия уже есть");
@@ -33,7 +32,6 @@ public class AnimeStudioService
             await _context.SaveChangesAsync();
 
             return AnimeStudio.StudioId;
-
         }
 
     }
@@ -66,28 +64,29 @@ public class AnimeStudioService
         }
 
     }
-    //public async Task<List<AnimationStudioResponse>> GetsStudioById(List<int> animestudioId)
-    //{
-    //    var Animestudio = await _context.Studios.FirstOrDefaultAsync(st => st.StudioId == animestudioId);
-    //    if (Animestudio != null)
-    //    {
-    //        return new AnimationStudioResponse
-    //        {
-    //            Id = Animestudio.StudioId,
-    //            Name = Animestudio.Name,
-    //            YearOfFoundation = Animestudio.YearOfFoundation
-    //        };
-    //    }
-    //    else
-    //    {
-    //        throw new Exception("найти такую студию  не полоучилось");
-    //    }
-
-    //}
-
-
-
-
+    public async Task<List<AnimationStudioResponse>> GetStudiosById(List<int> animestudioId)
+    {
+        var result = new List<AnimationStudioResponse>(animestudioId.Count); 
+        foreach (int i in animestudioId)
+        {
+            var Animestudio = await _context.Studios.FirstOrDefaultAsync(st => st.StudioId == i);
+            if (Animestudio != null)
+            {
+                AnimationStudioResponse temp = new AnimationStudioResponse
+                {
+                    Id = Animestudio.StudioId,
+                    Name = Animestudio.Name,
+                    YearOfFoundation = Animestudio.YearOfFoundation
+                };
+                result.Add(temp);
+            }
+            else
+            {
+                throw new Exception("найти такую студию  не полоучилось");
+            }
+        }
+        return result;
+    }
 
     public async Task UpdateStudio(UpdateAnimationStudioRequest studioupdate)
     {

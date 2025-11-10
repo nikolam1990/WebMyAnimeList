@@ -40,7 +40,7 @@ public class AnimeService
             return AnimeTaitle.AnimeId;
         }
     }
-
+    
     public async Task<List<AnimationResponse>> GetAnimes()
     {
         return await _context.Animes.Select(animeTaitle =>
@@ -77,7 +77,8 @@ public class AnimeService
     }
     public async Task UpdateAnime(UpdateAnimationRequest animeUpdate)//
     {
-        var intStudioAni = animeUpdate.Studios.ToList();
+        var animationStudios = await _context.Studios.Where(x => animeUpdate.Studios.Contains(x.StudioId)).ToListAsync();
+        List<int> intStudioAni = animeUpdate.Studios.ToList();
         var AnimeUpadate = await _context.Animes.Include(x => x.Studio)
             .FirstOrDefaultAsync(an => an.AnimeId == animeUpdate.AnimeId);
         if (AnimeUpadate != null)
@@ -86,7 +87,7 @@ public class AnimeService
             AnimeUpadate.CuontSezon = animeUpdate.CuontSezon;
             AnimeUpadate.CuontSerios = animeUpdate.CuontSerios;
             AnimeUpadate.GenreAnime = animeUpdate.GenreAnime;
-            AnimeUpadate.Studio = intStudioAni;
+            AnimeUpadate.Studio = animationStudios;
             await _context.SaveChangesAsync();
         }
         else
@@ -94,6 +95,7 @@ public class AnimeService
             throw new Exception("аниме не найдена");
         }
     }
+
     public async Task DeleteAnime(int animestudioId)
     {
         var Animefail = _context.Animes.FirstOrDefault(st => st.AnimeId == animestudioId);
