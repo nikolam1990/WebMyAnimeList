@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Xml.Linq;
 using WebMyAnimeList.Data;
 using WebMyAnimeList.Data.Entities;
 using WebMyAnimeList.Models;
@@ -75,19 +73,20 @@ public class AnimeService
             throw new Exception("найти такое аниме не полоучилось");
         }
     }
-    public async Task UpdateAnime(UpdateAnimationRequest animeUpdate)//
+
+    public async Task UpdateAnime(UpdateAnimationRequest animeUpdate)
     {
         var animationStudios = await _context.Studios.Where(x => animeUpdate.Studios.Contains(x.StudioId)).ToListAsync();
-        List<int> intStudioAni = animeUpdate.Studios.ToList();
-        var AnimeUpadate = await _context.Animes.Include(x => x.Studio)
+        var intStudioAni = animeUpdate.Studios.ToList();
+        var AnimeUpdate = await _context.Animes.Include(x => x.Studio)
             .FirstOrDefaultAsync(an => an.AnimeId == animeUpdate.AnimeId);
-        if (AnimeUpadate != null)
+        if (AnimeUpdate != null)
         {
-            AnimeUpadate.Name = animeUpdate.Name;
-            AnimeUpadate.CuontSezon = animeUpdate.CuontSezon;
-            AnimeUpadate.CuontSerios = animeUpdate.CuontSerios;
-            AnimeUpadate.GenreAnime = animeUpdate.GenreAnime;
-            AnimeUpadate.Studio = animationStudios;
+            AnimeUpdate.Name = animeUpdate.Name;
+            AnimeUpdate.CuontSezon = animeUpdate.CuontSezon;
+            AnimeUpdate.CuontSerios = animeUpdate.CuontSerios;
+            AnimeUpdate.GenreAnime = animeUpdate.GenreAnime;
+            AnimeUpdate.Studio = animationStudios;
             await _context.SaveChangesAsync();
         }
         else
