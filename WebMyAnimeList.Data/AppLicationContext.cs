@@ -20,5 +20,14 @@ public class ApplicationContext : DbContext
         modelBuilder.Entity<AnimationStudio>().HasKey(b => b.StudioId);
         modelBuilder.Entity<Anime>().Property(b => b.Name).HasMaxLength(210);
         modelBuilder.Entity<Anime>().HasKey(b => b.AnimeId);
+        modelBuilder.Entity<AnimeSeries>()
+            .HasOne(s=>s.Anime)
+            .WithMany(a=>a.AnimeSeries)
+            .HasForeignKey(s => s.AnimeId);
+        modelBuilder.Entity<AnimeSeries>()
+            .HasOne(s => s.Studio)
+            .WithMany(a => a.AnimeSeries)
+            .HasForeignKey(s => s.StudioId);
+
     }
 }

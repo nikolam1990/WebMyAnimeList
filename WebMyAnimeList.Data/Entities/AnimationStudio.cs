@@ -6,4 +6,5 @@ public class AnimationStudio
     public string Name { get; set; }
     public int YearOfFoundation { get; set; }
     public List<Anime> Animes { get; set; }
+    public List<AnimeSeries> AnimeSeries { get; set; }
 }

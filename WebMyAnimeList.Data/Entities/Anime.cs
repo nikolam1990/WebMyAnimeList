@@ -9,6 +9,7 @@ public class Anime
     public int CuontSezon { get; set; }
     public int CuontSerios { get; set; }
     public Genre[] GenreAnime { get; set; }
+    public List<AnimeSeries> AnimeSeries {get;set;}
     public List<AnimationStudio> Studio { get; set; }
 }
 
