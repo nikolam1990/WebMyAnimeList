@@ -10,18 +10,18 @@ namespace WebMyAnimeList.Controllers;
 [ApiController]
 public class AnimeSeriesController : ControllerBase
 {
-    private readonly AnimeSeriesServis _animeTaitleSetie;
+    private readonly AnimeSeriesService _animeTaitleSetie;
 
-    public AnimeSeriesController(AnimeSeriesServis animeTaitleSeries)
+    public AnimeSeriesController(AnimeSeriesService animeTaitleSeries)
     {
         _animeTaitleSetie = animeTaitleSeries;
     }
     [HttpPost("Create")]
-    public async Task<ActionResult<int>> Create(CreateAnimeSeriesRequest animeTaitleSeries)
+    public async Task<ActionResult<int>> Create(CreateAnimeSeriesRequest animeTitleSeries)
     {
         try
         {
-            return Ok(await _animeTaitleSetie.CreateAnimeSeries(animeTaitleSeries));
+            return Ok(await _animeTaitleSetie.CreateAnimeSeries(animeTitleSeries));
         }
         catch (Exception ex)
         {

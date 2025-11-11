@@ -39,31 +39,31 @@ public class AnimeService
         }
     }
     
-    public async Task<List<AnimationResponse>> GetAnimes()
+    public async Task<List<AnimeResponse>> GetAnimes()
     {
         return await _context.Animes.Select(animeTaitle =>
-            new AnimationResponse
+            new AnimeResponse
             {
                 AnimeId = animeTaitle.AnimeId,
                 Name = animeTaitle.Name,
-                CuontSezon = animeTaitle.CuontSezon,
-                CuontSerios = animeTaitle.CuontSerios,
+                CountSeason = animeTaitle.CuontSezon,
+                CountSeries = animeTaitle.CuontSerios,
                 GenreAnime = animeTaitle.GenreAnime.Select(x=>x.Description()).ToArray(),
                 Studios = animeTaitle.Studio.Select(x => x.Name).ToList()
             }).ToListAsync();
     }
-    public async Task<AnimationResponse> GetAnime(int animeTaitleId)
+    public async Task<AnimeResponse> GetAnime(int animeTaitleId)
     {
         var Anime = await _context.Animes.Include(x => x.Studio)
             .FirstOrDefaultAsync(an => an.AnimeId == animeTaitleId);
         if (Anime != null)
         {
-            return new AnimationResponse
+            return new AnimeResponse
             {
                 AnimeId = Anime.AnimeId,
                 Name = Anime.Name,
-                CuontSezon = Anime.CuontSezon,
-                CuontSerios = Anime.CuontSerios,
+                CountSeason = Anime.CuontSezon,
+                CountSeries = Anime.CuontSerios,
                 GenreAnime = Anime.GenreAnime.Select(x => x.Description()).ToArray(),
                 Studios = Anime.Studio.Select(x => x.Name).ToList()
             };

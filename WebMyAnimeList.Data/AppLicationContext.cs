@@ -8,6 +8,7 @@ public class ApplicationContext : DbContext
     public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options) {}
     public DbSet<Anime> Animes => Set<Anime>();
     public DbSet<AnimationStudio> Studios => Set<AnimationStudio>();
+    public DbSet<AnimeSeries> AnimeSeries => Set<AnimeSeries>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

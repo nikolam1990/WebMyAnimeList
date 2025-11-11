@@ -9,6 +9,7 @@ builder.Services.AddDbContext<ApplicationContext>(
     options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<AnimeStudioService>();
 builder.Services.AddScoped<AnimeService>();
+builder.Services.AddScoped<AnimeSeriesService>();
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 

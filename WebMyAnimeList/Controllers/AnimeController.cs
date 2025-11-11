@@ -31,13 +31,13 @@ namespace WebMyAnimeList.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<AnimationResponse>>> Gets()
+        public async Task<ActionResult<List<AnimeResponse>>> Gets()
         {
             return Ok(await _animeTaitle.GetAnimes());
         }
 
         [HttpGet("Taitle")]
-        public async Task<ActionResult<AnimationResponse>> GetById(int id)
+        public async Task<ActionResult<AnimeResponse>> GetById(int id)
         {
             try
             {
@@ -49,7 +49,21 @@ namespace WebMyAnimeList.Controllers
             }
         }
 
-        [HttpPost("Rebranding")]
+        //[HttpGet("all Series sezon")]
+        //public async Task<ActionResult<List<AnimationResponse>>> GetById(int id, int idSezon)
+        //{
+        //    //try
+        //    //{
+        //    //    return Ok(await _animeTaitle.GetAnime(id));
+        //    //}
+        //    //catch (Exception ex)
+        //    //{
+        //    //    return NotFound(ex.Message);
+        //    //}
+
+        //}
+
+            [HttpPost("Rebranding")]
         public async Task<ActionResult> UpdateStudioById(UpdateAnimationRequest animeupdate)
         {
             try
