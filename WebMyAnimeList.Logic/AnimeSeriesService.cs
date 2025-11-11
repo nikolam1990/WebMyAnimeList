@@ -32,31 +32,28 @@ public class AnimeSeriesService
         await _context.SaveChangesAsync();
         return AnimeTaitle.Id;
     }
-    public async Task<AnimationSeriecResponse> GetAnimeSeriec(int animeTaitleIdSeries)
+    public async Task<AnimationSeriecResponse> GetAnimeSeriec(int EpisodID)
     {
-        var Anime = await _context.Animes.Include(x => x.Studio)
-            .FirstOrDefaultAsync(an => an.AnimeId == animeTaitleIdSeries);
 
-
-        var AnimeTaitleIdSeries = await _context.AnimeSeries.
-            FirstOrDefaultAsync(anse => anse.AnimeId == animeTaitleIdSeries);
-            
-
-        if (AnimeTaitleIdSeries != null)
+        var EpisodAnime = await _context.AnimeSeries.FirstOrDefaultAsync(st => st.Id == EpisodID);
+        var Anime = await _context.Animes.FirstOrDefaultAsync(an => an.AnimeId == EpisodAnime.AnimeId);
+        var StudioCreatedEpisode = await _context.Studios.FirstOrDefaultAsync(st => st.StudioId == EpisodAnime.StudioId);
+        
+        if (EpisodAnime != null)
         {
             return new AnimationSeriecResponse
             {
-                //AnimeId = Anime.AnimeId,
-                //Name = Anime.Name,
-                //CuontSezon = Anime.CuontSezon,
-                //CuontSerios = Anime.CuontSerios,
-                //GenreAnime = Anime.GenreAnime.Select(x => x.Description()).ToArray(),
-                //Studios = Anime.Studio.Select(x => x.Name).ToList()
+                EpisodeId = EpisodAnime.Id,
+                NameAnime = Anime.Name,
+                NameSeriec = EpisodAnime.Name,
+                CuontSezon = EpisodAnime.Season,
+                CuontSerios = EpisodAnime.Number,
+                Studios = StudioCreatedEpisode.Name
             };
         }
         else
         {
-            throw new Exception("найти такое аниме не полоучилось");
+            throw new Exception("найти такой эпизод не полоучилось");
         }
     }
 
@@ -81,18 +78,18 @@ public class AnimeSeriesService
     //    }
     //}
 
-    //public async Task DeleteAnime(int animestudioId)
-    //{
-    //    var Animefail = _context.Animes.FirstOrDefault(st => st.AnimeId == animestudioId);
-    //    if (Animefail != null)
-    //    {
-    //        _context.Remove(Animefail);
-    //        await _context.SaveChangesAsync();
-    //    }
-    //    else
-    //    {
-    //        throw new Exception("аниме не найдена");
-    //    }
-    //}
+    public async Task DeleteEpisode(int EpisodID)
+    {
+        var EpisodeFail = _context.AnimeSeries.FirstOrDefault(s => s.Id == EpisodID);
+        if (EpisodeFail != null)
+        {
+            _context.Remove(EpisodeFail);
+            await _context.SaveChangesAsync();
+        }
+        else
+        {
+            throw new Exception("аниме не найдена");
+        }
+    }
 
 }
