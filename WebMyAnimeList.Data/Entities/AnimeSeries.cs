@@ -1,6 +1,4 @@
-﻿using WebMyAnimeList.Models;
-
-namespace WebMyAnimeList.Data.Entities
+﻿namespace WebMyAnimeList.Data.Entities
 {
     public class AnimeSeries
     {

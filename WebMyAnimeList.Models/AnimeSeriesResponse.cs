@@ -1,6 +1,6 @@
 ﻿namespace WebMyAnimeList.Models;
 
-public class AnimationSeriecResponse
+public class AnimeSeriesResponse
 {
     public int EpisodeId { get; set; }
     public string NameAnime { get; set; }

@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace WebMyAnimeList.Models
 {
-    public class UpdateAnimationSeriecRequest
+    public class UpdateAnimeSeriesRequest
     {
         public int EpisodeId { get; set; }
         public int AnimeId { get; set; }

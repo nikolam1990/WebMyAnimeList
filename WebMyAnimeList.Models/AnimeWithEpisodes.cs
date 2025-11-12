@@ -1,10 +1,10 @@
-﻿namespace WebMyAnimeList.Models
+﻿namespace WebMyAnimeList.Models;
+
+public class AnimeWithEpisodes
 {
-    public class EpisodeResponse
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public int Number { get; set; }
-        public string Studios { get; set; }
-    }
+    public int AnimeId { get; set; }
+    public string Anime { get; set; }
+    public int StudioId { get; set; }
+    public string Studio { get; set; }
+    public List<EpisodeResponse> Episodes { get; set; }
 }

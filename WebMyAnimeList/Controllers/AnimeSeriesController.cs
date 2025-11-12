@@ -10,44 +10,45 @@ namespace WebMyAnimeList.Controllers;
 [ApiController]
 public class AnimeSeriesController : ControllerBase
 {
-    private readonly AnimeSeriesService _animeTaitleSetie;
+    private readonly AnimeSeriesService _animeSeriesService;
 
-    public AnimeSeriesController(AnimeSeriesService animeTaitleSeries)
+    public AnimeSeriesController(AnimeSeriesService animeSeriesService)
     {
-        _animeTaitleSetie = animeTaitleSeries;
+        _animeSeriesService = animeSeriesService;
     }
-    [HttpPost("CreateSeriec")]
-    public async Task<ActionResult<int>> Create(CreateAnimeSeriesRequest animeTitleSeries)
+
+    [HttpPost("CreateSeries")]
+    public async Task<ActionResult<int>> Create(CreateAnimeSeriesRequest createRequest)
     {
         try
         {
-            //нужно ли сделать проверку на сущесвование такого анмие(по айди)
-            //нужно ли сделать проверку на сущесвование такой студии(по айди)
-            return Ok(await _animeTaitleSetie.CreateSeries(animeTitleSeries));
+            return Ok(await _animeSeriesService.CreateSeries(createRequest));
         }
         catch (Exception ex)
         {
             return BadRequest(ex.Message);
         }
     }
-    [HttpGet("Seriec")]
-    public async Task<ActionResult<AnimationSeriecResponse>> GetById(int id)
+
+    [HttpGet("Series")]
+    public async Task<ActionResult<AnimeSeriesResponse>> GetById(int animeId, int seasonId)
     {
         try
         {
-            return Ok(await _animeTaitleSetie.GetSeriec(id));
+            return Ok(await _animeSeriesService.GetSeriesInSeason(animeId, seasonId));
         }
         catch (Exception ex)
         {
             return NotFound(ex.Message);
         }
     }
-    [HttpPost("UpdateSeriec")]
-    public async Task<ActionResult> UpdateSeriecById(UpdateAnimationSeriecRequest animeTitleSeries)
+
+    [HttpPost("UpdateSeries")]
+    public async Task<ActionResult> UpdateSeriecById(UpdateAnimeSeriesRequest updateRequest)
     {
         try
         {
-            await _animeTaitleSetie.UpdateSeriec(animeTitleSeries);
+            await _animeSeriesService.UpdateSeries(updateRequest);
             return Ok();
         }
         catch (Exception ex)
@@ -56,13 +57,12 @@ public class AnimeSeriesController : ControllerBase
         }
     }
 
-
-    [HttpDelete("DeleteSeriec")]
-    public async Task<ActionResult> DeleteSeriecById(int id)
+    [HttpDelete("DeleteSeries")]
+    public async Task<ActionResult> DeleteSeriesById(int id)
     {
         try
         {
-            await _animeTaitleSetie.DeleteSeriec(id);
+            await _animeSeriesService.DeleteSeries(id);
             return Ok();
         }
         catch (Exception ex)
@@ -70,5 +70,4 @@ public class AnimeSeriesController : ControllerBase
             return NotFound(ex.Message);
         }
     }
-
 }

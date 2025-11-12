@@ -54,7 +54,7 @@ namespace WebMyAnimeList.Controllers
         {
             try
             {
-                //return Ok(await _animeTaitle.GetAnime(id));
+                return Ok(await _animeTaitle.GetSeriesInSeason(id,idSezon));
             }
             catch (Exception ex)
             {

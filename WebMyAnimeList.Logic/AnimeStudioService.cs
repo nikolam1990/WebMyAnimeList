@@ -113,15 +113,8 @@ public class AnimeStudioService
         else 
         {
             throw new Exception("студия не найдена"); 
-        }
-        
+        }   
     }
-
-
-
-
-
-
 }
 
 

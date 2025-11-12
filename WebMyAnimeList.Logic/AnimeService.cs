@@ -38,7 +38,7 @@ public class AnimeService
             return AnimeTaitle.AnimeId;
         }
     }
-    
+
     public async Task<List<AnimeResponse>> GetAnimes()
     {
         return await _context.Animes.Select(animeTaitle =>
@@ -48,10 +48,37 @@ public class AnimeService
                 Name = animeTaitle.Name,
                 CountSeason = animeTaitle.CuontSezon,
                 CountSeries = animeTaitle.CuontSerios,
-                GenreAnime = animeTaitle.GenreAnime.Select(x=>x.Description()).ToArray(),
+                GenreAnime = animeTaitle.GenreAnime.Select(x => x.Description()).ToArray(),
                 Studios = animeTaitle.Studio.Select(x => x.Name).ToList()
             }).ToListAsync();
     }
+
+    public async Task<AnimeWithEpisodes> GetSeriesInSeason(int animeId, int season)
+    {
+        var anime = await _context.Animes.FirstOrDefaultAsync(an => an.AnimeId == animeId);
+        if (anime != null)
+        {
+            var result = new AnimeWithEpisodes()
+            {
+                AnimeId = animeId,
+                Anime = anime.Name,
+                Studio = anime.AnimeSeries.Where(ep => ep.Season == season).First().Studio.Name,
+                StudioId = anime.AnimeSeries.Where(ep => ep.Season == season).First().StudioId,
+                Episodes = anime.AnimeSeries.Where(ep => ep.Season == season).Select(x => new EpisodeResponse
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Number = x.Number,
+                }).ToList()
+            };
+            return result;
+        }
+        else 
+        {
+            throw new Exception("аниме не найдена");
+        }
+    }
+
     public async Task<AnimeResponse> GetAnime(int animeTaitleId)
     {
         var Anime = await _context.Animes.Include(x => x.Studio)
