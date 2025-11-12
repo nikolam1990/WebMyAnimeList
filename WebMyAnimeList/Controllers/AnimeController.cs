@@ -49,19 +49,19 @@ namespace WebMyAnimeList.Controllers
             }
         }
 
-        //[HttpGet("all Series sezon")]
-        //public async Task<ActionResult<List<AnimationResponse>>> GetById(int id, int idSezon)
-        //{
-        //    //try
-        //    //{
-        //    //    return Ok(await _animeTaitle.GetAnime(id));
-        //    //}
-        //    //catch (Exception ex)
-        //    //{
-        //    //    return NotFound(ex.Message);
-        //    //}
+        [HttpGet("all Series sezon")]
+        public async Task<ActionResult<List<EpisodeResponse>>> GetsById(int id, int idSezon)
+        {
+            try
+            {
+                //return Ok(await _animeTaitle.GetAnime(id));
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
 
-        //}
+        }
 
         [HttpPost("Rebranding")]
         public async Task<ActionResult> UpdateStudioById(UpdateAnimationRequest animeupdate)
