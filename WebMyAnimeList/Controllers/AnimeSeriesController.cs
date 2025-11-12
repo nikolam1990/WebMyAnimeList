@@ -31,11 +31,11 @@ public class AnimeSeriesController : ControllerBase
     }
 
     [HttpGet("Series")]
-    public async Task<ActionResult<AnimeSeriesResponse>> GetById(int animeId, int seasonId)
+    public async Task<ActionResult<AnimeSeriesResponse>> GetById(int animeId)
     {
         try
         {
-            return Ok(await _animeSeriesService.GetSeriesInSeason(animeId, seasonId));
+            return Ok(await _animeSeriesService.GetSeries(animeId));
         }
         catch (Exception ex)
         {

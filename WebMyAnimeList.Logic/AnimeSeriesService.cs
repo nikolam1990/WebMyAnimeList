@@ -1,9 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WebMyAnimeList.Data;
 using WebMyAnimeList.Data.Entities;
 using WebMyAnimeList.Models;
@@ -20,8 +15,7 @@ public class AnimeSeriesService
 
     public async Task<int> CreateSeries(CreateAnimeSeriesRequest animeSeriesTitle)
     {
-        //нужно ли сделать проверку на сущесвование такого анмие(по айди)
-        //нужно ли сделать проверку на сущесвование такой студии(по айди)
+ 
         var animeTitle = new AnimeSeries
         {
             Name = animeSeriesTitle.Name,

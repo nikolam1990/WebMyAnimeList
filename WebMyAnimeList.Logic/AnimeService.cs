@@ -55,7 +55,10 @@ public class AnimeService
 
     public async Task<AnimeWithEpisodes> GetSeriesInSeason(int animeId, int season)
     {
-        var anime = await _context.Animes.FirstOrDefaultAsync(an => an.AnimeId == animeId);
+        var anime = await _context.Animes
+            .Include(x => x.AnimeSeries)
+                .ThenInclude(x => x.Studio)
+            .FirstOrDefaultAsync(an => an.AnimeId == animeId);
         if (anime != null)
         {
             var result = new AnimeWithEpisodes()
@@ -73,7 +76,7 @@ public class AnimeService
             };
             return result;
         }
-        else 
+        else
         {
             throw new Exception("аниме не найдена");
         }
