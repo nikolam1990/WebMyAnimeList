@@ -9,6 +9,7 @@ namespace WebMyAnimeList.Models
 {
     public class UpdateAnimationSeriecRequest
     {
+        public int EpisodeId { get; set; }
         public int AnimeId { get; set; }
         public string Name { get; set; }
         public int CuontSezon { get; set; }

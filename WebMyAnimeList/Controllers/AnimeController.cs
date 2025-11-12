@@ -63,7 +63,7 @@ namespace WebMyAnimeList.Controllers
 
         //}
 
-            [HttpPost("Rebranding")]
+        [HttpPost("Rebranding")]
         public async Task<ActionResult> UpdateStudioById(UpdateAnimationRequest animeupdate)
         {
             try

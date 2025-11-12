@@ -18,8 +18,10 @@ public class AnimeSeriesService
         _context = context;
     }
 
-    public async Task<int> CreateAnimeSeries (CreateAnimeSeriesRequest animeSeriesTail)
+    public async Task<int> CreateSeries (CreateAnimeSeriesRequest animeSeriesTail)
     {
+        //нужно ли сделать проверку на сущесвование такого анмие(по айди)
+        //нужно ли сделать проверку на сущесвование такой студии(по айди)
         var AnimeTaitle = new AnimeSeries
         {
             Name = animeSeriesTail.Name,
@@ -32,7 +34,7 @@ public class AnimeSeriesService
         await _context.SaveChangesAsync();
         return AnimeTaitle.Id;
     }
-    public async Task<AnimationSeriecResponse> GetAnimeSeriec(int EpisodID)
+    public async Task<AnimationSeriecResponse> GetSeriec(int EpisodID)
     {
 
         var EpisodAnime = await _context.AnimeSeries.FirstOrDefaultAsync(st => st.Id == EpisodID);
@@ -57,28 +59,30 @@ public class AnimeSeriesService
         }
     }
 
-    //public async Task UpdateAnime(UpdateAnimationSeriecRequest animeUpdate)
-    //{
-    //    var animationStudios = await _context.Studios.Where(x => animeUpdate.Studios.Contains(x.StudioId)).ToListAsync();
-    //    var intStudioAni = animeUpdate.Studios.ToList();
-    //    var AnimeUpdate = await _context.Animes.Include(x => x.Studio)
-    //        .FirstOrDefaultAsync(an => an.AnimeId == animeUpdate.AnimeId);
-    //    if (AnimeUpdate != null)
-    //    {
-    //        AnimeUpdate.Name = animeUpdate.Name;
-    //        AnimeUpdate.CuontSezon = animeUpdate.CuontSezon;
-    //        AnimeUpdate.CuontSerios = animeUpdate.CuontSerios;
-    //        AnimeUpdate.GenreAnime = animeUpdate.GenreAnime;
-    //        AnimeUpdate.Studio = animationStudios;
-    //        await _context.SaveChangesAsync();
-    //    }
-    //    else
-    //    {
-    //        throw new Exception("аниме не найдена");
-    //    }
-    //}
+    public async Task UpdateSeriec(UpdateAnimationSeriecRequest UpdateAnimeSeriec)
+    {
+        
+        var UpdateEpisodAnime = await _context.AnimeSeries.FirstOrDefaultAsync(st => st.Id == UpdateAnimeSeriec.EpisodeId);
+       
+        if (UpdateEpisodAnime != null)
+        {
+            {
+                UpdateEpisodAnime.Name = UpdateAnimeSeriec.Name;
+                UpdateEpisodAnime.Season = UpdateAnimeSeriec.CuontSezon;
+                UpdateEpisodAnime.Number = UpdateAnimeSeriec.CuontSerios;
+                UpdateEpisodAnime.AnimeId = UpdateAnimeSeriec.AnimeId;
+                UpdateEpisodAnime.StudioId = UpdateAnimeSeriec.Studios;
+                await _context.SaveChangesAsync();
+            }
+        }
+        else
+        {
+            throw new Exception("найти такой эпизод не полоучилось");
+        }
 
-    public async Task DeleteEpisode(int EpisodID)
+    }
+
+    public async Task DeleteSeriec(int EpisodID)
     {
         var EpisodeFail = _context.AnimeSeries.FirstOrDefault(s => s.Id == EpisodID);
         if (EpisodeFail != null)
