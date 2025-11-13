@@ -16,7 +16,7 @@ public class UserService
     }
     public async Task<int> CreateStudio(CreateUserRequest user)
     {
-        var User = await _context.Studios.Select(x => x.Name).ToListAsync();
+        var User = await _context. .Select(x => x.Name).ToListAsync();
         if (User.Contains(user.Name))
         {
             throw new Exception("такая студия уже есть");
