@@ -10,6 +10,7 @@ builder.Services.AddDbContext<ApplicationContext>(
 builder.Services.AddScoped<AnimeStudioService>();
 builder.Services.AddScoped<AnimeService>();
 builder.Services.AddScoped<AnimeSeriesService>();
+builder.Services.AddScoped<UserService>();
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
