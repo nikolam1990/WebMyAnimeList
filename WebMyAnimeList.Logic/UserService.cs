@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using WebMyAnimeList.Data;
 using WebMyAnimeList.Data.Entities;
 using WebMyAnimeList.Models;
@@ -32,23 +33,58 @@ public class UserService
             await _context.SaveChangesAsync();
             return User.UserId;
         }
-        public async Task<List<AnimationStudioResponse>> GetStudios()
+    }
+    public async Task<List<UserResponse>> GetUsers()
+    {
+        List<UserResponse> result = new List<UserResponse>();
+        //return await _context.Users.Include(s => s.AnimeSeries).Select(user =>    возможно нужно както так
+        List<UserResponse> unverifiedResult = await _context.Users.Select(user =>  
+        new UserResponse
         {
-        return await _context.Studios.Select(studio =>
-            new AnimationStudioResponse
+         UserId = user.UserId,
+         FirstName = user.FirstName,
+         LastName = user.LastName,
+         Anime = user.AnimeSeries.Select(s => s.Anime.Name).ToList()
+        }).ToListAsync();
+        foreach (var i in unverifiedResult)
+        {
+            UserResponse temp = new UserResponse
             {
-                Id = studio.StudioId,
-                Name = studio.Name,
-                YearOfFoundation = studio.YearOfFoundation
-            }).ToListAsync();
-
+                UserId = i.UserId,
+                FirstName = i.FirstName,
+                LastName = i.LastName,
+                Anime = i.Anime
+            };
+            if (temp.Anime == null) 
+            {
+                temp.Anime.Add("пока еще ничего не смотрел");
+            }
+            result.Add(temp);
         }
-
-
-
-
-}
-
-
-
+            return result;
+    }
+    public async Task<UserResponse> GetUser(int userId)
+    {
+        var User = await _context.Users.Include(s => s.AnimeSeries)
+            .FirstOrDefaultAsync(us => us.UserId == userId);
+        if (User != null)
+        {
+            UserResponse result = new UserResponse
+            {
+                UserId = User.UserId,
+                FirstName = User.FirstName,
+                LastName = User.LastName,
+                Anime = User.AnimeSeries.Select(s => s.Anime.Name).ToList()
+            };
+            if(result.Anime == null) 
+            {
+                result.Anime.Add("пока еще ничего не смотрел");
+            };
+            return result;
+        }
+        else
+        {
+            throw new Exception("найти такое аниме не полоучилось");
+        }
+    }
 }
