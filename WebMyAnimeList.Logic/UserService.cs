@@ -17,8 +17,7 @@ public class UserService
     }
     public async Task<int> CreateUser(CreateUserRequest user)
     {
-        var Users = await _context.Users.Select(fn => fn.LastName).ToListAsync();
-        if (Users.Contains(user.LastName) && Users.Contains(user.FirstName))
+        if( await _context.Users.AnyAsync(fn => fn.LastName == user.LastName && fn.FirstName == user.FirstName))
         {
             throw new Exception("такой пользователь уже есть");
         }
@@ -59,6 +58,7 @@ public class UserService
     public async Task<UserResponse> GetUser(int userId)
     {
         var User = await _context.Users.Include(s => s.AnimeSeries)
+            .ThenInclude(a => a.Anime)
             .FirstOrDefaultAsync(us => us.UserId == userId);
         if (User != null)
         {
@@ -80,18 +80,24 @@ public class UserService
 
     public async Task UpdateUser(UpdateUserRequest userUpdate)
     {
+        if (await _context.Users.AnyAsync(fn => fn.LastName == userUpdate.LastName && fn.FirstName == userUpdate.FirstName))
+        {
+            throw new Exception("такой пользователь уже есть");
+        }
+
         var user = await _context.Users.FirstOrDefaultAsync(us => us.UserId == userUpdate.UserId);
         if (user != null)
         {
-            var userFirstLast = await _context.Users
-                .FirstOrDefaultAsync(us => us.FirstName == userUpdate.FirstName && us.LastName == userUpdate.LastName)
-                ?? throw new Exception("такой пользователь уже есть");
-            
+            if (await _context.Users.AnyAsync(fn => fn.LastName == userUpdate.LastName && fn.FirstName == userUpdate.FirstName))
+            {
+                throw new Exception("такой пользователь уже есть");
+            }
+
             {
                 user.FirstName = userUpdate.FirstName;
                 user.LastName = userUpdate.LastName;
+                await _context.SaveChangesAsync();
             };
-
         }
         else
         {
@@ -117,7 +123,7 @@ public class UserService
     {
         var user = await _context.Users.Include(s => s.AnimeSeries)
             .FirstOrDefaultAsync(us => us.UserId == userId);
-        var episode = await _context.AnimeSeries.FirstOrDefaultAsync(ep => ep.Id == userId) 
+        var episode = await _context.AnimeSeries.FirstOrDefaultAsync(ep => ep.Id == episodeId) 
             ?? throw new Exception("такой серии нет");
         if (user != null)
         {

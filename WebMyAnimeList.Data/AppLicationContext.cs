@@ -40,9 +40,7 @@ public class ApplicationContext : DbContext
             .HasMany(sa => sa.Animes)
             .WithMany(a => a.Studio);
         modelBuilder.Entity<User>()
-            .HasMany(u => u.AnimeSeries);
-            
-
-
+            .HasMany(a => a.AnimeSeries)
+            .WithMany(u => u.Users);
     }
 }

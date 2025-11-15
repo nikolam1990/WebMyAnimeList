@@ -10,5 +10,6 @@
         public int StudioId { get; set; }
         public AnimationStudio Studio { get; set; }
         public Anime Anime { get; set; }
+        public List<User> Users { get; set; }
     }
 }

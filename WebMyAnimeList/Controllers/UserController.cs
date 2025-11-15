@@ -32,7 +32,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<UserResponse>>> GetsUser()
+    public async Task<ActionResult<List<UserResponse>>> GetUsers()
     {
         return Ok(await _user.GetUsers());
     }
