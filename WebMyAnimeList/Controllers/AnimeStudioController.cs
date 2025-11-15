@@ -1,6 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using WebMyAnimeList.Data;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using WebMyAnimeList.Logic;
 using WebMyAnimeList.Models;
 using WebMyAnimeList.Logic;
 using WebMyAnimeList.Data.Entities;
