@@ -3,7 +3,7 @@
 public class UserResponse
 {
     public int UserId { get; set; }
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public List<string> Anime { get; set; }
+    public required string FirstName { get; set; }
+    public required string LastName { get; set; }
+    public required List<string> Anime { get; set; }
 }
