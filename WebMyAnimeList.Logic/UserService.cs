@@ -103,8 +103,8 @@ public class UserService
             {
                 User.FirstName = userUpdate.FirstName;
                 User.LastName = userUpdate.LastName;
-            }
-            ;
+            };
+            
         }
         else
         {
