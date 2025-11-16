@@ -35,10 +35,6 @@ public class ApplicationContext : DbContext
         modelBuilder.Entity<User>().Property(b => b.FirstName).HasMaxLength(15);
         modelBuilder.Entity<User>().Property(b => b.LastName).HasMaxLength(25);
         modelBuilder.Entity<User>().HasKey(b => b.UserId);
-
-        modelBuilder.Entity<AnimationStudio>()
-            .HasMany(sa => sa.Animes)
-            .WithMany(a => a.Studio);
         modelBuilder.Entity<User>()
             .HasMany(a => a.AnimeSeries)
             .WithMany(u => u.Users);
